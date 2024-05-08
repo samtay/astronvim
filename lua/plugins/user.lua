@@ -1,5 +1,3 @@
-if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
-
 -- You can also add or configure plugins by creating files in this `plugins/` folder
 -- Here are some examples:
 
@@ -8,7 +6,9 @@ return {
 
   -- == Examples of Adding Plugins ==
 
-  "andweeb/presence.nvim",
+  -- This shows Discord that you are writing in Neovim...
+  -- "andweeb/presence.nvim",
+
   {
     "ray-x/lsp_signature.nvim",
     event = "BufRead",
@@ -23,17 +23,36 @@ return {
     opts = function(_, opts)
       -- customize the dashboard header
       opts.section.header.val = {
-        " █████  ███████ ████████ ██████   ██████",
-        "██   ██ ██         ██    ██   ██ ██    ██",
-        "███████ ███████    ██    ██████  ██    ██",
-        "██   ██      ██    ██    ██   ██ ██    ██",
-        "██   ██ ███████    ██    ██   ██  ██████",
-        " ",
-        "    ███    ██ ██    ██ ██ ███    ███",
-        "    ████   ██ ██    ██ ██ ████  ████",
-        "    ██ ██  ██ ██    ██ ██ ██ ████ ██",
-        "    ██  ██ ██  ██  ██  ██ ██  ██  ██",
-        "    ██   ████   ████   ██ ██      ██",
+        "                                  ░░   ░░░   ░░                                ",
+        "                            ░░░  ░░░░░░░░░░░░░░░  ░░░                          ",
+        "                            ░░░░░░░░░░░░░░░░░░░░░░░░░                          ",
+        "                       ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░                     ",
+        "      ░            ░   ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░             ░░░   ░ ",
+        "  ░░  ░░░░         ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░       ░░░░░   ░░",
+        " ░░░  ░░░░░        ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░      ░░░░░░  ░░░",
+        " ░░░░░ ░░░░░   ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ ░░░░░░░░░░░░",
+        " ░░░░░░░░░░░    ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░   ░░░░░░░░░░ ",
+        "   ░░░░░░░░  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ ░░░░░░░   ",
+        "     ░░░░░░  ░░░░░░░░░░░░░░░░░░░░▒▓▒  ░░░░░░░▒▓░ ░░░░░░░░░░░░░░░░░░░ ░░░░      ",
+        "        ░░░░  ░░░░░░░░░░░░░░░░░░░▒█▓   ░░░░░ ▓█▓   ░░░░░░░░░░░░░░░░░░░░        ",
+        "          ░░░░░░░░░░░░░░░░░░░░░░░ ░     ░░░░  ░    ░░░░░░░░░░░░░░░░░░░         ",
+        "          ░░░░░░░░░░░░░░░░░░░░░░░      ░░░░░░     ░░░░░░░░░░░░░░░░░░░░░        ",
+        "         ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ ░░░░░░░       ",
+        "          ░░░░░  ░    ░░░░░░░░░░░░░░░░░░    ░░░░░░░░░░░░░░░     ░░ ░░░░        ",
+        "            ░░░░  ░           ░░░░░░░░░░░░░░░░░░░░░░           ░  ░░░░         ",
+        "              ░░░                                             ░   ░░░          ",
+        "                ░░                                               ░░            ",
+        "                  ░░                                            ░░             ",
+        "                   ░                                                           ",
+      }
+      local get_icon = require("astroui").get_icon
+      opts.section.buttons.val = {
+        opts.button("LDR n  ", get_icon("FileNew", 2, true) .. "New File  "),
+        opts.button("LDR f f", get_icon("Search", 2, true) .. "Find File  "),
+        opts.button("LDR f r", get_icon("DefaultFile", 2, true) .. "Recents  "),
+        opts.button("LDR /  ", get_icon("WordFile", 2, true) .. "Find Word  "),
+        opts.button("LDR f '", get_icon("Bookmarks", 2, true) .. "Bookmarks  "),
+        opts.button("LDR S l", get_icon("Refresh", 2, true) .. "Last Session  "),
       }
       return opts
     end,
@@ -82,4 +101,21 @@ return {
       )
     end,
   },
+
+  -- my shit
+  {
+    "ledger/vim-ledger",
+    ft = { "ledger", "journal" },
+    config = function()
+      vim.api.nvim_create_augroup("ledger", { clear = false })
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        group = "ledger",
+        callback = function() vim.cmd "LedgerAlignBuffer" end,
+        desc = "Align on decimal point",
+      })
+    end,
+  },
+  "NoahTheDuke/vim-just",
+  "inkarkat/vim-ingo-library",
+  "inkarkat/vim-SyntaxRange",
 }
